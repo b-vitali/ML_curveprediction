@@ -11,7 +11,7 @@ import argparse
 # ========================== #
 config = {
     "random_seed": 34,
-    "num_points": 20,
+    "num_points": 40,
     "max_curves": None,
     "data_folder": "curves",
     "figures_folder": "figures",
@@ -129,23 +129,28 @@ def load_dataset(folder, num_points, max_curves=None):
             x_vals, y_vals = np.array(x_vals), np.array(y_vals)
 
             #! Do i want to sample the whole curve OR real random?
-            segment_size = len(x_vals) // num_points
-            training_indices = np.array([
-                rng.choice(np.arange(i * segment_size, (i + 1) * segment_size))
-                for i in range(num_points)
-            ])
+            if num_points != None:
+                segment_size = len(x_vals) // num_points
+                training_indices = np.array([
+                    rng.choice(np.arange(i * segment_size, (i + 1) * segment_size))
+                    for i in range(num_points)
+                ])
 
-            if len(x_vals) % num_points != 0:
-                training_indices[-1] = len(x_vals) - 1
-            
-            """
-            global rng
-            # Randomly select num_points indices from x_vals
-            training_indices = rng.choice(len(x_vals), size=num_points, replace=False)
-            training_indices = np.sort(training_indices)
-            """
-            X_sample = params + list(x_vals[training_indices])
-            Y_sample = list(y_vals[training_indices])
+                if len(x_vals) % num_points != 0:
+                    training_indices[-1] = len(x_vals) - 1
+                
+                """
+                global rng
+                # Randomly select num_points indices from x_vals
+                training_indices = rng.choice(len(x_vals), size=num_points, replace=False)
+                training_indices = np.sort(training_indices)
+                """
+                X_sample = params + list(x_vals[training_indices])
+                Y_sample = list(y_vals[training_indices])
+            else:
+                X_sample = params + list(x_vals)
+                Y_sample = list(y_vals)
+
             X.append(X_sample)
             Y.append(Y_sample)
 
