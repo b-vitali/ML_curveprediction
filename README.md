@@ -34,6 +34,11 @@ A Gaussian Process (GP) model is used as an alternative approach:
 
 The GP model is trained on individual curves and used to predict the values for the test set.
 
+### 2. Gaussian Process Model
+Another option is to use signle points extracted from curves as data
+`[par1, par2, ..., park, xi]->[yi]`
+In theory this should create a 'parametric function' but seems weak...
+
 ## Training
 
 Both models are trained using the following setup:
